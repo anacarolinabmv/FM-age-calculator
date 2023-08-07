@@ -22,21 +22,22 @@
       <div class="birthyear--container">
         <div>
           <label for="day">Day</label>
-          <input type="number" min="1" max="31" id="day" />
+          <select id="days" class="input"></select>
+          <!-- <input type="number" min="1" max="31" id="day"  /> -->
         </div>
         <div>
           <label for="month">Month</label>
-          <select id="months"></select>
+          <select id="months" class="input"></select>
         </div>
         <div>
           <label for="year">Year</label>
-          <select id="years"></select>
+          <select id="years" class="input"></select>
         </div>
       </div>
       <div class="age--container">
-        <div class="year"></div>
-        <div class="month"></div>
-        <div class="day"></div>
+        <div><span class="year" id="year"></span></div>
+        <div><span class="month" id="month"></span></div>
+        <div><span class="day" id="day"></span></div>
       </div>
     </div>
 
