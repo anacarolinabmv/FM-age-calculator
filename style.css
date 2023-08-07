@@ -71,6 +71,11 @@ label {
   padding: 1rem;
   border-radius: 50%;
 }
+button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
 .attribution {
   margin-top: 4rem;
 }
