@@ -1,43 +1,41 @@
 'use strict';
-
+//Selecting elements
 const dayEl = document.getElementById('day--input');
 const monthEl = document.getElementById('month--input');
 const yearEl = document.getElementById('year--input');
 
-//days input
-for (let day = 1; day <= 31; day++) {
-  const html = `<option value="${day}">${day}</option>`;
-  dayEl.insertAdjacentHTML('beforeend', html);
-}
+// //Option select for days,months and years
+// //days
+// for (let day = 1; day <= 31; day++) {
+//   const html = `<option value="${day}">${day}</option>`;
+//   dayEl.insertAdjacentHTML('beforeend', html);
+// }
+// //months
+// const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-//months input
-const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// monthsShort.forEach((month) => {
+//   const html = `<option value="${month}">${month}</option>`;
+//   monthEl.insertAdjacentHTML('beforeend', html);
+// });
+// //years
+// const currentYear = new Date().getFullYear();
 
-monthsShort.forEach((month) => {
-  const html = `<option value="${month}">${month}</option>`;
-  monthEl.insertAdjacentHTML('beforeend', html);
-});
+// for (let year = 1920; year <= currentYear; year++) {
+//   const html = `<option value="${year}">${year}</option>`;
+//   yearEl.insertAdjacentHTML('beforeend', html);
+// }
 
-//yearsinput
-const currentYear = new Date().getFullYear();
-
-for (let year = 1920; year <= currentYear; year++) {
-  const html = `<option value="${year}">${year}</option>`;
-  yearEl.insertAdjacentHTML('beforeend', html);
-}
-
-//Calculating age
+//Calculate age
 
 const btnCalcAge = document.getElementById('calc--age');
 
 const calcAge = function () {
   const birthDay = +dayEl.value;
-  const bMonth = monthEl.value;
-  const birthMonth = +monthsShort.indexOf(`${bMonth}`);
+  const birthMonth = +monthEl.value - 1;
+  // const birthMonth = +monthsShort.indexOf(`${bMonth}`);
   const birthYear = +yearEl.value;
 
-  console.log(bMonth, birthMonth);
-
+  console.log(birthDay, birthMonth, birthYear);
   const currentDay = new Date().getDate();
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -45,8 +43,6 @@ const calcAge = function () {
   let days = currentDay - birthDay;
   let months = currentMonth - birthMonth;
   let years = currentYear - birthYear;
-
-  console.log(days, years, months);
 
   if (months < 0 || (months === 0 && days < 0)) {
     years--;
@@ -64,5 +60,5 @@ const calcAge = function () {
   document.getElementById('months2').textContent = months;
   document.getElementById('years2').textContent = years;
 };
-calcAge();
+
 btnCalcAge.addEventListener('click', calcAge);
