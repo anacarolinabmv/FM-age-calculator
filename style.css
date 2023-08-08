@@ -52,7 +52,14 @@ label {
   font-size: 2.2rem;
   font-weight: 800;
   border-color: var(--light-grey);
+  border-radius: 6px;
   color: var(--off-black);
+  cursor: pointer;
+  transition: border-color 300ms linear;
+}
+.input:hover,
+.input:active {
+  border-color: var(--purple);
 }
 .input:focus {
   outline: none;
@@ -68,9 +75,17 @@ label {
 }
 .circle {
   background-color: var(--purple);
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 50%;
+  transition: background-color 300ms ease;
+  cursor: pointer;
 }
+
+.circle:hover,
+.circle:active {
+  background-color: var(--off-black);
+}
+
 button {
   background-color: inherit;
   border: none;
