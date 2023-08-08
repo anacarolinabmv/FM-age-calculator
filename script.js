@@ -1,61 +1,57 @@
 'use strict';
 
-const selectDay = document.getElementById('days');
-const selectMonth = document.getElementById('months');
-const selectYear = document.getElementById('years');
+const dayEl = document.getElementById('day--input');
+const monthEl = document.getElementById('month--input');
+const yearEl = document.getElementById('year--input');
 
-//days
+//days input
 for (let day = 1; day <= 31; day++) {
   const html = `<option value="${day}">${day}</option>`;
-  selectDay.insertAdjacentHTML('beforeend', html);
+  dayEl.insertAdjacentHTML('beforeend', html);
 }
 
-//months
+//months input
 const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 monthsShort.forEach((month) => {
   const html = `<option value="${month}">${month}</option>`;
-  selectMonth.insertAdjacentHTML('beforeend', html);
+  monthEl.insertAdjacentHTML('beforeend', html);
 });
 
-//years
+//yearsinput
 const currentYear = new Date().getFullYear();
 
 for (let year = 1900; year <= currentYear; year++) {
   const html = `<option value="${year}">${year}</option>`;
-  selectYear.insertAdjacentHTML('beforeend', html);
+  yearEl.insertAdjacentHTML('beforeend', html);
 }
 
 //Calculating age
 
-const btnCalcAge = document.getElementById('calcAge');
+const btnCalcAge = document.getElementById('calc--age');
 
 const calcAge = function () {
-  const day = document.getElementById('days').value;
-  const month = document.getElementById('months').value;
-  const monthNum = monthsShort.indexOf(`${month}`);
-  const year = document.getElementById('years').value;
+  const dayVal = dayEl.value.padStart(2, 0);
+  const monthVal = monthEl.value;
+  const monthNumVal = `${monthsShort.indexOf(`${monthVal}`) + 1}`.padStart(2, 0);
+  const yearVal = yearEl.value;
 
-  const timestampBirth = new Date(
-    `${year}`,
-    `${monthNum}`,
-    `${day}`,
-    `${new Date().getHours()}`,
-    `${new Date().getMinutes()}`
-  ).getTime();
+  const nowTimestamp = Date.now();
+  const now = new Date();
 
-  const now = new Date().getTime();
-  const yearsNum = (now - timestampBirth) / 1000 / 60 / 60 / 24 / 365;
-  const monthsNum = yearsNum - Math.floor(yearsNum);
-  // const daysNum = yearsNum - Math.floor(monthsNum);
-  console.log(monthsNum * 12);
-  // console.log(daysNum);
+  const bdayString = `${yearVal}-${monthNumVal}-${dayVal}T${`${now.getHours()}`.padStart(
+    2,
+    0
+  )}:${`${now.getMinutes()}`.padStart(2, 0)}:00`;
+  const bdayTimestamp = new Date(bdayString).getTime();
 
-  // document.getElementById('days2').textContent=;
-  document.getElementById('years2').textContent = Math.floor(yearsNum);
-  document.getElementById('months2').textContent = Math.floor((monthsNum * 12) / 10);
+  const years = (nowTimestamp - bdayTimestamp) / 1000 / 60 / 60 / 24 / 365.25;
+  const months = (years - Math.floor(years)) * 12;
+  const days = (months - Math.floor(months)) * 30.4375;
+
+  document.getElementById('years2').textContent = Math.floor(years);
+  document.getElementById('months2').textContent = Math.floor(months);
+  document.getElementById('days2').textContent = Math.ceil(days);
 };
 
 btnCalcAge.addEventListener('click', calcAge);
-
-const now = new Date().getTime();
