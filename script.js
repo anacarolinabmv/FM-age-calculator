@@ -21,7 +21,7 @@ monthsShort.forEach((month) => {
 //yearsinput
 const currentYear = new Date().getFullYear();
 
-for (let year = 1900; year <= currentYear; year++) {
+for (let year = 1920; year <= currentYear; year++) {
   const html = `<option value="${year}">${year}</option>`;
   yearEl.insertAdjacentHTML('beforeend', html);
 }
@@ -31,27 +31,38 @@ for (let year = 1900; year <= currentYear; year++) {
 const btnCalcAge = document.getElementById('calc--age');
 
 const calcAge = function () {
-  const dayVal = dayEl.value.padStart(2, 0);
-  const monthVal = monthEl.value;
-  const monthNumVal = `${monthsShort.indexOf(`${monthVal}`) + 1}`.padStart(2, 0);
-  const yearVal = yearEl.value;
+  const birthDay = +dayEl.value;
+  const bMonth = monthEl.value;
+  const birthMonth = +monthsShort.indexOf(`${bMonth}`);
+  const birthYear = +yearEl.value;
 
-  const nowTimestamp = Date.now();
-  const now = new Date();
+  console.log(bMonth, birthMonth);
 
-  const bdayString = `${yearVal}-${monthNumVal}-${dayVal}T${`${now.getHours()}`.padStart(
-    2,
-    0
-  )}:${`${now.getMinutes()}`.padStart(2, 0)}:00`;
-  const bdayTimestamp = new Date(bdayString).getTime();
+  const currentDay = new Date().getDate();
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
 
-  const years = (nowTimestamp - bdayTimestamp) / 1000 / 60 / 60 / 24 / 365.25;
-  const months = (years - Math.floor(years)) * 12;
-  const days = (months - Math.floor(months)) * 30.4375;
+  let days = currentDay - birthDay;
+  let months = currentMonth - birthMonth;
+  let years = currentYear - birthYear;
 
-  document.getElementById('years2').textContent = Math.floor(years);
-  document.getElementById('months2').textContent = Math.floor(months);
-  document.getElementById('days2').textContent = Math.ceil(days);
+  console.log(days, years, months);
+
+  if (months < 0 || (months === 0 && days < 0)) {
+    years--;
+    months += 12;
+  }
+  if (days < 0) {
+    const lastMonth = new Date(currentYear, currentMonth - 1, birthDay);
+    const diffTime = new Date() - lastMonth;
+
+    days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    months--;
+  }
+
+  document.getElementById('days2').textContent = days;
+  document.getElementById('months2').textContent = months;
+  document.getElementById('years2').textContent = years;
 };
-
+calcAge();
 btnCalcAge.addEventListener('click', calcAge);
