@@ -27,7 +27,7 @@ body {
   background-color: var(--off-white);
   font-family: 'Poppins', sans-serif;
 }
-label {
+.label {
   display: block;
   text-transform: uppercase;
   letter-spacing: 1.6px;
@@ -42,9 +42,13 @@ label {
   border-radius: 2rem 2rem 12rem;
   padding: 4rem;
 }
-.birthyear--container {
+.bday--input-container {
   display: flex;
   gap: 2.6rem;
+}
+.bday-input {
+  display: flex;
+  flex-direction: column;
 }
 
 .input {
@@ -59,15 +63,21 @@ label {
   cursor: pointer;
   transition: border-color 200ms linear;
 }
+
 .input::placeholder {
   color: var(--light-grey);
 }
-
 .input:hover,
 .input:active {
   border-color: var(--purple);
 }
 .input:focus {
+  outline: none !important;
+  border-color: var(--purple);
+  box-shadow: 0 0 10px var(--light-grey);
+}
+a:focus,
+button:focus {
   outline: none;
 }
 .line-icon {
@@ -108,4 +118,24 @@ button {
 }
 .age--container span {
   color: var(--purple);
+}
+
+.error {
+  color: var(--light-red);
+}
+.red--border {
+  border-color: var(--light-red);
+}
+.error--msg,
+.empty--msg {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  color: var(--light-red);
+  font-weight: 400;
+  font-style: italic;
+  display: none;
+}
+.display--error {
+  display: block;
 }

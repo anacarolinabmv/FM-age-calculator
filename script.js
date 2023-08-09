@@ -1,41 +1,43 @@
 'use strict';
+
 //Selecting elements
-const dayEl = document.getElementById('day--input');
-const monthEl = document.getElementById('month--input');
-const yearEl = document.getElementById('year--input');
+const dayInput = document.getElementById('input--day');
+const monthInput = document.getElementById('input--month');
+const yearIput = document.getElementById('input--year');
 
-// //Option select for days,months and years
-// //days
-// for (let day = 1; day <= 31; day++) {
-//   const html = `<option value="${day}">${day}</option>`;
-//   dayEl.insertAdjacentHTML('beforeend', html);
-// }
-// //months
-// const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const labels = document.querySelectorAll('.label');
+const inputs = document.querySelectorAll('.input');
+const smallMsgs = document.querySelectorAll('small');
 
-// monthsShort.forEach((month) => {
-//   const html = `<option value="${month}">${month}</option>`;
-//   monthEl.insertAdjacentHTML('beforeend', html);
-// });
-// //years
-// const currentYear = new Date().getFullYear();
-
-// for (let year = 1920; year <= currentYear; year++) {
-//   const html = `<option value="${year}">${year}</option>`;
-//   yearEl.insertAdjacentHTML('beforeend', html);
-// }
-
-//Calculate age
+const labelsArr = Array.from(labels);
+const smallArr = Array.from(smallMsgs);
+const inputsArr = Array.from(inputs);
 
 const btnCalcAge = document.getElementById('calc--age');
 
-const calcAge = function () {
-  const birthDay = +dayEl.value;
-  const birthMonth = +monthEl.value - 1;
-  // const birthMonth = +monthsShort.indexOf(`${bMonth}`);
-  const birthYear = +yearEl.value;
+//Calculate age
 
-  console.log(birthDay, birthMonth, birthYear);
+const checkEmptyInput = function (input, type) {
+  if (!input || input < 0) {
+    const input = inputsArr.find((inp) => inp.classList.contains(`input--${type}`));
+    const label = labelsArr.find((label) => label.classList.contains(`label-${type}`));
+    const message = smallArr.find((msg) => msg.classList.contains(`empty--msg-${type}`));
+
+    input.classList.add('red--border');
+    label.classList.add('error');
+    message.classList.add('display--error');
+  }
+};
+
+const calcAge = function () {
+  const birthDay = +dayInput.value;
+  const birthMonth = +monthInput.value - 1;
+  const birthYear = +yearIput.value;
+
+  checkEmptyInput(birthDay, 'day');
+  checkEmptyInput(birthMonth, 'month');
+  checkEmptyInput(birthYear, 'year');
+
   const currentDay = new Date().getDate();
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -62,3 +64,7 @@ const calcAge = function () {
 };
 
 btnCalcAge.addEventListener('click', calcAge);
+
+document.addEventListener('keydown', (event) => {
+  event.key === 'Enter' && calcAge();
+});

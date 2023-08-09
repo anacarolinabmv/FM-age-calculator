@@ -19,20 +19,26 @@
   </head>
   <body>
     <div class="app--container">
-      <div class="birthyear--container">
-        <div>
-          <label for="day--input">Day</label>
-          <input type="text" class="input" id="day--input" placeholder="DD" />
+      <div class="bday--input-container">
+        <div class="bday--input">
+          <label for="day--input" class="label label-day">Day</label>
+          <input type="text" class="input input--day" id="input--day" maxlength="2" placeholder="DD" />
+          <small class="empty--msg empty--msg-day">This field is required</small>
+          <small class="error--msg error--msg-day">Must be a valid number</small>
           <!-- <select id="day--input" class="input"></select> -->
         </div>
-        <div>
-          <label for="month--input">Month</label>
-          <input type="text" class="input" id="month--input" placeholder="MM" />
+        <div class="bday--input">
+          <label for=" month--input" class="label label-month">Month</label>
+          <input type="text" class="input input--month" id="input--month" maxlength="2" placeholder="MM" />
+          <small class="empty--msg empty--msg-month">This field is required</small>
+          <small class="error--msg error--msg-month">Must be a valid number</small>
           <!-- <select id="month--input" class="input"></select> -->
         </div>
-        <div>
-          <label for="year--input">Year</label>
-          <input type="text" class="input" id="year--input" placeholder="YYYY" />
+        <div class="bday--input">
+          <label for=" year--input" class="label label-year">Year</label>
+          <input type="text" class="input input--year" id="input--year" maxlength="4" placeholder="YYYY" />
+          <small class="empty--msg empty--msg-year">This field is required</small>
+          <small class="error--msg error--msg-year">Must be a valid number</small>
           <!-- <select id="year--input" class="input"></select> -->
         </div>
       </div>
