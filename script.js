@@ -14,53 +14,117 @@ const smallArr = Array.from(smallMsgs);
 const inputsArr = Array.from(inputs);
 
 const btnCalcAge = document.getElementById('calc--age');
+const currentYear = new Date().getFullYear();
+
+let error = false;
 
 //Calculate age
 
-const checkEmptyInput = function (input, type) {
-  if (!input || input < 0) {
-    const input = inputsArr.find((inp) => inp.classList.contains(`input--${type}`));
-    const label = labelsArr.find((label) => label.classList.contains(`label-${type}`));
-    const message = smallArr.find((msg) => msg.classList.contains(`empty--msg-${type}`));
+const init = function () {
+  inputs.forEach((inp) => (inp.value = ''));
 
-    input.classList.add('red--border');
-    label.classList.add('error');
-    message.classList.add('display--error');
-  }
+  document.getElementById('days2').textContent = '--';
+  document.getElementById('months2').textContent = '--';
+  document.getElementById('years2').textContent = '--';
+};
+
+const inputError = function (inp, errorType) {
+  error = true;
+
+  const errorMsg = errorType === 'empty' ? 'This field is required' : 'Must be a valid number';
+  console.log(errorMsg);
+
+  const input = inputsArr.find((inpt) => inpt.classList.contains(`input--${inp}`));
+  const label = labelsArr.find((label) => label.classList.contains(`label-${inp}`));
+  const small = smallArr.find((msg) => msg.classList.contains(`error--msg-${inp}`));
+  console.log(input, label, small);
+
+  input.classList.add('red--border');
+  label.classList.add('error');
+  small.classList.add('display--error');
+  small.textContent = errorMsg;
+};
+
+const restoreError = function (input) {
+  const parent = input.closest('div.bday--input');
+  const label = parent.querySelector('label');
+  const message = parent.querySelectorAll('small');
+
+  input.classList.remove('red--border');
+  label.classList.remove('error');
+  message.forEach((mes) => mes.classList.remove('display--error'));
+};
+
+inputs.forEach((input) =>
+  input.addEventListener('click', function () {
+    if (error === true) {
+      restoreError(input);
+      error = false;
+    }
+  })
+);
+
+const checkDay = function (day) {
+  if (day.length === 0) inputError('day', 'empty');
+  else if (day.length === 1) inputError('day', 'invalid');
+  else if (day.length === 2 && (+day < 1 || +day > 31)) inputError('day', 'invalid');
+  else return day;
+};
+
+const checkMonth = function (month) {
+  if (month.length === 0) inputError('month', 'empty');
+  else if (month.length === 1) inputError('month', 'invalid');
+  else if (month.length === 2 && (+month < 1 || +month > 12)) inputError('month', 'invalid');
+  else return month;
+};
+
+const checkYear = function (year) {
+  if (year.length === 0) inputError('year', 'empty');
+  else if (year.length >= 1 && year.length < 4) inputError('year', 'invalid');
+  else if (year.length === 4 && (+year < 1 || +year > currentYear)) inputError('year', 'invalid');
+  else return year;
 };
 
 const calcAge = function () {
-  const birthDay = +dayInput.value;
-  const birthMonth = +monthInput.value - 1;
-  const birthYear = +yearIput.value;
+  const birthDay = dayInput.value;
+  const birthMonth = monthInput.value; //Month is 0 based
+  const birthYear = yearIput.value;
 
-  checkEmptyInput(birthDay, 'day');
-  checkEmptyInput(birthMonth, 'month');
-  checkEmptyInput(birthYear, 'year');
+  const day = +checkDay(birthDay);
+  const month = +checkMonth(birthMonth) - 1;
+  const year = +checkYear(birthYear);
 
-  const currentDay = new Date().getDate();
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
+  if (day && month && year) {
+    const currentDay = new Date().getDate();
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
 
-  let days = currentDay - birthDay;
-  let months = currentMonth - birthMonth;
-  let years = currentYear - birthYear;
+    let daysDiff = currentDay - day;
+    let monthsDiff = currentMonth - month;
+    let yearsDiff = currentYear - year;
 
-  if (months < 0 || (months === 0 && days < 0)) {
-    years--;
-    months += 12;
+    if (monthsDiff < 0 || (monthsDiff === 0 && daysDiff < 0)) {
+      yearsDiff--;
+      monthsDiff += 12;
+    }
+    if (daysDiff < 0) {
+      const lastMonth = new Date(currentYear, currentMonth - 1, birthDay);
+      const diffTime = new Date() - lastMonth;
+
+      daysDiff = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      monthsDiff--;
+    }
+
+    document.getElementById('days2').textContent = daysDiff;
+    document.getElementById('months2').textContent = monthsDiff;
+    document.getElementById('years2').textContent = yearsDiff;
+
+    inputs.forEach((input) => {
+      input.addEventListener('click', function () {
+        init();
+      });
+    });
   }
-  if (days < 0) {
-    const lastMonth = new Date(currentYear, currentMonth - 1, birthDay);
-    const diffTime = new Date() - lastMonth;
-
-    days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    months--;
-  }
-
-  document.getElementById('days2').textContent = days;
-  document.getElementById('months2').textContent = months;
-  document.getElementById('years2').textContent = years;
 };
 
 btnCalcAge.addEventListener('click', calcAge);
