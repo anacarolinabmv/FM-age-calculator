@@ -47,13 +47,14 @@ inputs.forEach((input) =>
 );
 
 const inputError = function (inp, errorMsg) {
+  console.log(inp, errorMsg);
   const input = inputsArr.find((inpt) => inpt.classList.contains(`input--${inp}`));
   const label = labelsArr.find((label) => label.classList.contains(`label-${inp}`));
   const small = smallArr.find((msg) => msg.classList.contains(`error--msg-${inp}`));
 
   input.classList.add('red--border');
   label.classList.add('error');
-  small.classList.add('display--error');
+  small.classList.add('display--error-msg');
   small.textContent = errorMsg;
 };
 
@@ -73,6 +74,7 @@ const checkInput = function (value, type) {
     else return value;
   }
   if (type === 'year') {
+    console.log(type, value);
     if (value.length >= 1 && value.length < 4) inputError(type, 'Must be a valid year');
     else if (value.length === 4 && (+value < 1900 || +value > currentYear)) inputError(type, 'Must be a valid year');
     else return +value;
@@ -112,11 +114,8 @@ const calcAge = function () {
     daysEl.textContent = daysDiff;
     monthsEl.textContent = monthsDiff;
     yearsEl.textContent = yearsDiff;
-
-    inputs.forEach((input) => input.addEventListener('click', init));
   }
 };
-
 btnCalcAge.addEventListener('click', calcAge);
 
 document.addEventListener('keydown', (event) => {
