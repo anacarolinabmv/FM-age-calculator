@@ -37,8 +37,8 @@ body {
 }
 .app--container {
   background-color: var(--white);
-  height: 500px;
-  width: 600px;
+  height: 50rem;
+  width: 60rem;
   border-radius: 2rem 2rem 12rem;
   padding: 4rem;
 }
@@ -46,7 +46,7 @@ body {
   display: flex;
   gap: 2.6rem;
 }
-.bday-input {
+.bday--input {
   display: flex;
   flex-direction: column;
 }
@@ -67,10 +67,7 @@ body {
 .input::placeholder {
   color: var(--light-grey);
 }
-.input:hover,
-.input:active {
-  border-color: var(--purple);
-}
+
 .input:focus {
   outline: none !important;
   border-color: var(--purple);
@@ -80,11 +77,11 @@ a:focus,
 button:focus {
   outline: none;
 }
-.line-icon {
+.line--icon {
   display: flex;
   align-items: center;
 }
-.hl {
+.horz--line {
   height: 1px;
   width: 90%;
   background-color: var(--off-white);
@@ -135,6 +132,6 @@ button {
   font-style: italic;
   display: none;
 }
-.display--error {
+.display--error-msg {
   display: block;
 }

@@ -5,6 +5,10 @@ const dayInput = document.getElementById('input--day');
 const monthInput = document.getElementById('input--month');
 const yearIput = document.getElementById('input--year');
 
+const daysEl = document.getElementById('daysEl');
+const monthsEl = document.getElementById('monthsEl');
+const yearsEl = document.getElementById('yearsEl');
+
 const labels = document.querySelectorAll('.label');
 const inputs = document.querySelectorAll('.input');
 const smallMsgs = document.querySelectorAll('small');
@@ -14,36 +18,8 @@ const smallArr = Array.from(smallMsgs);
 const inputsArr = Array.from(inputs);
 
 const btnCalcAge = document.getElementById('calc--age');
-const currentYear = new Date().getFullYear();
-
-let error = false;
 
 //Calculate age
-
-const init = function () {
-  inputs.forEach((inp) => (inp.value = ''));
-
-  document.getElementById('days2').textContent = '--';
-  document.getElementById('months2').textContent = '--';
-  document.getElementById('years2').textContent = '--';
-};
-
-const inputError = function (inp, errorType) {
-  error = true;
-
-  const errorMsg = errorType === 'empty' ? 'This field is required' : 'Must be a valid number';
-  console.log(errorMsg);
-
-  const input = inputsArr.find((inpt) => inpt.classList.contains(`input--${inp}`));
-  const label = labelsArr.find((label) => label.classList.contains(`label-${inp}`));
-  const small = smallArr.find((msg) => msg.classList.contains(`error--msg-${inp}`));
-  console.log(input, label, small);
-
-  input.classList.add('red--border');
-  label.classList.add('error');
-  small.classList.add('display--error');
-  small.textContent = errorMsg;
-};
 
 const restoreError = function (input) {
   const parent = input.closest('div.bday--input');
@@ -52,37 +28,55 @@ const restoreError = function (input) {
 
   input.classList.remove('red--border');
   label.classList.remove('error');
-  message.forEach((mes) => mes.classList.remove('display--error'));
+  message.forEach((mes) => mes.classList.remove('display--error-msg'));
+};
+
+const init = function () {
+  inputs.forEach(restoreError);
+  inputs.forEach((inp) => (inp.value = ''));
+
+  daysEl.textContent = '--';
+  monthsEl.textContent = '--';
+  yearsEl.textContent = '--';
 };
 
 inputs.forEach((input) =>
-  input.addEventListener('click', function () {
-    if (error === true) {
-      restoreError(input);
-      error = false;
-    }
+  input.addEventListener('focus', () => {
+    if (input.classList.contains('red--border')) restoreError(input);
   })
 );
 
-const checkDay = function (day) {
-  if (day.length === 0) inputError('day', 'empty');
-  else if (day.length === 1) inputError('day', 'invalid');
-  else if (day.length === 2 && (+day < 1 || +day > 31)) inputError('day', 'invalid');
-  else return day;
+const inputError = function (inp, errorMsg) {
+  const input = inputsArr.find((inpt) => inpt.classList.contains(`input--${inp}`));
+  const label = labelsArr.find((label) => label.classList.contains(`label-${inp}`));
+  const small = smallArr.find((msg) => msg.classList.contains(`error--msg-${inp}`));
+
+  input.classList.add('red--border');
+  label.classList.add('error');
+  small.classList.add('display--error');
+  small.textContent = errorMsg;
 };
 
-const checkMonth = function (month) {
-  if (month.length === 0) inputError('month', 'empty');
-  else if (month.length === 1) inputError('month', 'invalid');
-  else if (month.length === 2 && (+month < 1 || +month > 12)) inputError('month', 'invalid');
-  else return month;
-};
+const checkInput = function (value, type) {
+  const currentYear = new Date().getFullYear();
 
-const checkYear = function (year) {
-  if (year.length === 0) inputError('year', 'empty');
-  else if (year.length >= 1 && year.length < 4) inputError('year', 'invalid');
-  else if (year.length === 4 && (+year < 1 || +year > currentYear)) inputError('year', 'invalid');
-  else return year;
+  if (value.length === 0) inputError(type, 'This field is required');
+
+  if (type === 'day') {
+    if (value.length === 1) inputError(type, 'Must be a valid day');
+    else if (value.length === 2 && (+value < 1 || +value > 31)) inputError(type, 'Must be a valid day');
+    else return +value;
+  }
+  if (type === 'month') {
+    if (value.length === 1) inputError(type, 'Must be a valid month');
+    else if (value.length === 2 && (+value < 1 || +value > 12)) inputError(type, 'Must be a valid month');
+    else return value;
+  }
+  if (type === 'year') {
+    if (value.length >= 1 && value.length < 4) inputError(type, 'Must be a valid year');
+    else if (value.length === 4 && (+value < 1900 || +value > currentYear)) inputError(type, 'Must be a valid year');
+    else return +value;
+  }
 };
 
 const calcAge = function () {
@@ -90,9 +84,9 @@ const calcAge = function () {
   const birthMonth = monthInput.value; //Month is 0 based
   const birthYear = yearIput.value;
 
-  const day = +checkDay(birthDay);
-  const month = +checkMonth(birthMonth) - 1;
-  const year = +checkYear(birthYear);
+  const day = checkInput(birthDay, 'day');
+  const month = checkInput(birthMonth, 'month') - 1;
+  const year = checkInput(birthYear, 'year');
 
   if (day && month && year) {
     const currentDay = new Date().getDate();
@@ -115,15 +109,11 @@ const calcAge = function () {
       monthsDiff--;
     }
 
-    document.getElementById('days2').textContent = daysDiff;
-    document.getElementById('months2').textContent = monthsDiff;
-    document.getElementById('years2').textContent = yearsDiff;
+    daysEl.textContent = daysDiff;
+    monthsEl.textContent = monthsDiff;
+    yearsEl.textContent = yearsDiff;
 
-    inputs.forEach((input) => {
-      input.addEventListener('click', function () {
-        init();
-      });
-    });
+    inputs.forEach((input) => input.addEventListener('click', init));
   }
 };
 
@@ -131,4 +121,9 @@ btnCalcAge.addEventListener('click', calcAge);
 
 document.addEventListener('keydown', (event) => {
   event.key === 'Enter' && calcAge();
+});
+
+document.addEventListener('click', (event) => {
+  const targ = event.target;
+  if (targ.parentElement === document.querySelector('html')) init();
 });
