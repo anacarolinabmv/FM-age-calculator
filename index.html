@@ -18,44 +18,57 @@
     </style>
   </head>
   <body>
-    <div class="app--container">
-      <div class="bday--input-container">
-        <div class="bday--input">
-          <label for="day--input" class="label label-day">Day</label>
-          <input type="text" class="input input--day" id="input--day" maxlength="2" placeholder="DD" />
-          <small class="error--msg error--msg-day"></small>
+    <main>
+      <div class="app--container">
+        <div class="bday--input-container">
+          <div class="bday--input">
+            <label for="input--day" class="label label-day">Day</label>
+            <input type="text" class="input input--day" id="input--day" maxlength="2" placeholder="DD" />
+            <small class="error--msg error--msg-day"></small>
+          </div>
+          <div class="bday--input">
+            <label for="input--month" class="label label-month">Month</label>
+            <input type="text" class="input input--month" id="input--month" maxlength="2" placeholder="MM" />
+            <small class="error--msg error--msg-month"></small>
+          </div>
+          <div class="bday--input">
+            <label for="input--year" class="label label-year">Year</label>
+            <input type="text" class="input input--year" id="input--year" maxlength="4" placeholder="YYYY" />
+            <small class="error--msg error--msg-year"></small>
+          </div>
         </div>
-        <div class="bday--input">
-          <label for=" month--input" class="label label-month">Month</label>
-          <input type="text" class="input input--month" id="input--month" maxlength="2" placeholder="MM" />
-          <small class="error--msg error--msg-month"></small>
+        <div class="line--button">
+          <div class="horz--line"></div>
+          <button id="calc--age" aria-label="Calculate">
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="40" viewBox="0 0 46 44">
+              <g fill="none" stroke="#FFF" stroke-width="2">
+                <path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44" />
+              </g>
+            </svg>
+          </button>
         </div>
-        <div class="bday--input">
-          <label for=" year--input" class="label label-year">Year</label>
-          <input type="text" class="input input--year" id="input--year" maxlength="4" placeholder="YYYY" />
-          <small class="error--msg error--msg-year"></small>
+        <div class="age--container">
+          <div>
+            <span class="year" id="yearsEl">--</span>
+            <h1>years</h1>
+          </div>
+          <div>
+            <span class="month" id="monthsEl">--</span>
+            <h1>months</h1>
+          </div>
+          <div>
+            <span class="day" id="daysEl">--</span>
+            <h1>days</h1>
+          </div>
         </div>
       </div>
-      <div class="line--button">
-        <div class="horz--line"></div>
-        <button id="calc--age">
-          <svg xmlns="http://www.w3.org/2000/svg" width="42" height="40" viewBox="0 0 46 44">
-            <g fill="none" stroke="#FFF" stroke-width="2">
-              <path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44" />
-            </g>
-          </svg>
-        </button>
+    </main>
+    <footer>
+      <div class="attribution">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. Coded by
+        <a href="https://github.com/anacarolinabmv">Ana Carolina Borba</a>.
       </div>
-      <div class="age--container">
-        <div><span class="year" id="yearsEl">--</span> years</div>
-        <div><span class="month" id="monthsEl">--</span> months</div>
-        <div><span class="day" id="daysEl">--</span> days</div>
-      </div>
-    </div>
-    <div class="attribution">
-      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. Coded by
-      <a href="https://github.com/anacarolinabmv">Ana Carolina Borba</a>.
-    </div>
+    </footer>
     <script src="script.js"></script>
   </body>
 </html>

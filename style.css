@@ -111,6 +111,10 @@ button:active {
   line-height: 1.2;
   color: var(--off-black);
 }
+.age--container h1 {
+  font-size: 8.2rem;
+  display: inline;
+}
 
 .age--container span {
   color: var(--purple);
