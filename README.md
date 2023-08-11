@@ -39,7 +39,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: Netlify - [https://fm-agecalcapp.netlify.app/]
+- Live Site URL: [Netlify - Age calculator app](https://fm-agecalcapp.netlify.app/)
 
 ## My process
 
